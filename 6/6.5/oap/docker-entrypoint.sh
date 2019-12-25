@@ -203,9 +203,9 @@ generateConfigurationEtcd() {
 configuration:
   etcd:
     period: ${SW_CONFIGURATION_ETCD_PERIOD:60} # Unit seconds, sync period. Default fetch every 60 seconds.
-    group: ${SW_CONFIGURATION_ETCD_PERIOD:skywalking}
-    serverAddr: ${SW_CONFIGURATION_ETCD_PERIOD:localhost:2379}
-    clusterName: ${SW_CONFIGURATION_ETCD_CLUSTERNAME:localhost:default}
+    group: ${SW_CONFIGURATION_ETCD_GROUP:skywalking}
+    serverAddr: ${SW_CONFIGURATION_ETCD_SERVER_ADDR:localhost:2379}
+    clusterName: ${SW_CONFIGURATION_ETCD_CLUSTER_NAME:default}
 EOT
 }
 
