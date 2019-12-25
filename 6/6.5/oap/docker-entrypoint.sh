@@ -194,7 +194,18 @@ configuration:
     hostPort: \${SW_CONFIGURATION_ZOOKEEPER_HOST_PATH:localhost:2181}
     #Retry Policy
     baseSleepTimeMs: \${SW_CONFIGURATION_ZOOKEEPER_BASE_SLEEP_TIME_MS:1000} # initial amount of time to wait between retries
-    maxRetries: \${SW_CONFIGURATION_ZOOKEEPER_MAX_RETRIES:3}3 # max number of times to retry
+    maxRetries: \${SW_CONFIGURATION_ZOOKEEPER_MAX_RETRIES:3} # max number of times to retry
+EOT
+}
+
+generateConfigurationEtcd() {
+    cat <<EOT >> ${var_application_file}
+configuration:
+  etcd:
+    period: ${SW_CONFIGURATION_ETCD_PERIOD:60} # Unit seconds, sync period. Default fetch every 60 seconds.
+    group: ${SW_CONFIGURATION_ETCD_PERIOD:skywalking}
+    serverAddr: ${SW_CONFIGURATION_ETCD_PERIOD:localhost:2379}
+    clusterName: ${SW_CONFIGURATION_ETCD_CLUSTERNAME:localhost:default}
 EOT
 }
 
@@ -249,7 +260,7 @@ generateApplicationYaml() {
 
     validateVariables "SW_STORAGE" "$SW_STORAGE" "elasticsearch h2 mysql"
 
-    validateVariables "SW_CONFIGURATION" "$SW_CONFIGURATION" "none apollo nacos zookeeper"
+    validateVariables "SW_CONFIGURATION" "$SW_CONFIGURATION" "none apollo nacos zookeeper etcd"
 
     validateVariables "SW_TELEMETRY" "$SW_TELEMETRY" "none prometheus so11y"
 
@@ -356,6 +367,7 @@ EOT
     apollo) generateConfigurationApollo;;
     nacos) generateConfigurationNacos;;
     zookeeper) generateConfigurationZookeeper;;
+    etcd) generateConfigurationEtcd;;
     esac
 
     cat <<EOT >> ${var_application_file}
